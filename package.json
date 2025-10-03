@@ -1,0 +1,85 @@
+{
+  "name": "markdown-anywhere",
+  "displayName": "Markdown Anywhere",
+  "description": "Render markdown files in browser without keeping them open",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "markdown-anywhere.openInBrowser",
+        "title": "Open Markdown in Browser",
+        "category": "Markdown Anywhere"
+      },
+      {
+        "command": "markdown-anywhere.showActiveRenders",
+        "title": "Show Active Renders",
+        "category": "Markdown Anywhere"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname == .md",
+          "command": "markdown-anywhere.openInBrowser",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "resourceExtname == .md",
+          "command": "markdown-anywhere.openInBrowser",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "markdown-anywhere.openInBrowser",
+          "when": "resourceExtname == .md"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "markdown-anywhere.openInBrowser",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m",
+        "when": "resourceExtname == .md"
+      }
+    ],
+    "configuration": {
+      "title": "Markdown Anywhere",
+      "properties": {
+        "markdown-anywhere.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show markdown renders count in status bar"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/marked": "^5.0.2",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "highlight.js": "^11.7.0",
+    "marked": "^4.3.0"
+  }
+}
