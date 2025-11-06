@@ -33,7 +33,9 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:markdown"
+    "onLanguage:markdown",
+    "onCommand:markdown-anywhere.openInBrowser",
+    "onCommand:markdown-anywhere.showActiveRenders"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -66,8 +68,7 @@
       ],
       "commandPalette": [
         {
-          "command": "markdown-anywhere.openInBrowser",
-          "when": "resourceExtname == .md"
+          "command": "markdown-anywhere.openInBrowser"
         }
       ]
     },
