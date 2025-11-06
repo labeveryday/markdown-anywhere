@@ -3,10 +3,33 @@
   "displayName": "Markdown Anywhere",
   "description": "Render markdown files in browser without keeping them open",
   "version": "1.0.0",
+  "icon": "icon.png",
+  "publisher": "TODO-your-publisher-name",
+  "author": {
+    "name": "Du'An Lightfoot"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TODO-username/markdown-anywhere"
+  },
+  "bugs": {
+    "url": "https://github.com/TODO-username/markdown-anywhere/issues"
+  },
+  "keywords": [
+    "markdown",
+    "preview",
+    "browser",
+    "render",
+    "live-reload",
+    "github-markdown",
+    "viewer"
+  ],
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
+    "Programming Languages",
     "Other"
   ],
   "activationEvents": [

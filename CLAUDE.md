@@ -40,8 +40,11 @@ npm run vscode:prepublish   # Prepare for publishing
 ## Extension Activation
 
 - **Activation Events**: `onLanguage:markdown` - activates when a markdown file is opened
-- **Main Command**: `markdown-anywhere.openInBrowser` - opens markdown in browser
+- **Commands**:
+  - `markdown-anywhere.openInBrowser` - opens markdown in browser
+  - `markdown-anywhere.showActiveRenders` - shows quick pick menu to manage active renders
 - **Keybinding**: `Ctrl+Shift+M` (Windows/Linux) or `Cmd+Shift+M` (Mac)
+- **Configuration**: `markdown-anywhere.showStatusBar` (boolean, default: true) - controls status bar visibility
 
 ## File Structure
 
@@ -57,20 +60,22 @@ tsconfig.json           # TypeScript configuration
 ## Key Implementation Details
 
 ### Server Management
-- Each rendered markdown file gets its own HTTP server on a unique port
-- Servers are tracked in `MarkdownRenderer.renderedDocs` Map
-- Includes `/check-update` endpoint for live reload functionality
+- Each rendered markdown file gets its own HTTP server on a unique port (starts at 3000, auto-increments via `portCounter`)
+- Servers are tracked in `MarkdownRenderer.renderedDocs` Map with key = file path
+- Server has custom `updateContent()` method to update HTML without restarting (`src/extension.ts:299-302`)
+- Includes `/check-update` endpoint that returns `{ updated: true, timestamp: lastModified }` for live reload (`src/extension.ts:281-287`)
 
-### HTML Generation
-- Uses GitHub-flavored markdown via `marked` library
-- Includes comprehensive CSS styling that matches GitHub's appearance
-- Auto-refresh JavaScript checks for updates every second
-- Supports both light and dark themes via CSS media queries
+### HTML Generation (`src/extension.ts:93-269`)
+- Uses GitHub-flavored markdown via `marked` library with `highlight.js` integration (`src/extension.ts:25-39`)
+- Includes comprehensive CSS styling that matches GitHub's appearance with dark mode support via `prefers-color-scheme`
+- Auto-refresh JavaScript polls `/check-update` every 1 second (`src/extension.ts:239-251`)
+- Visual indicator shows "Auto-refresh enabled" in top-right corner
 
 ### Resource Management
-- File watchers are properly disposed when documents are closed
-- HTTP servers are closed when renders are terminated
-- Extension cleanup handled in `deactivate()` function
+- File watchers use `RelativePattern` to watch specific file, disposed via `watcher.dispose()` (`src/extension.ts:58-64, 328`)
+- HTTP servers closed via `server.close()` when renders are terminated (`src/extension.ts:329`)
+- Status bar item shows count of active renders with globe icon and click-to-manage functionality (`src/extension.ts:339-351`)
+- Extension cleanup in `dispose()` closes all renders and disposes status bar (`src/extension.ts:401-406`)
 
 ## Dependencies
 
@@ -91,3 +96,15 @@ To test the extension:
 3. Open a markdown file in the new window
 4. Use Ctrl+Shift+M or right-click context menu to render in browser
 5. Edit the markdown file and observe live reload in browser
+
+### Publishing Extension
+```bash
+# Install vsce globally if not already installed
+npm install -g @vscode/vsce
+
+# Package extension into .vsix file
+vsce package
+
+# Publish to marketplace (requires Personal Access Token)
+vsce publish
+```

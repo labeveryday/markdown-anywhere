@@ -1,5 +1,9 @@
 # Markdown Anywhere
 
+<p align="center">
+  <img src="icon.png" alt="Markdown Anywhere Icon" width="128" height="128">
+</p>
+
 A Visual Studio Code extension that renders markdown files in your browser without keeping them open in VS Code. Perfect for writing documentation, notes, or any markdown content while keeping your editor clean and focused.
 
 ## Features
@@ -131,15 +135,15 @@ vsce package
 
 ## License
 
-[Add your license information here]
+MIT License - see [LICENSE](LICENSE) file for details
 
 ## Changelog
 
 ### 1.0.0
 - Initial release
-- Basic markdown rendering in browser
+- Browser-based markdown rendering with GitHub styling
 - Live reload functionality
-- GitHub-style CSS
+- Syntax highlighting with highlight.js
 - Dark mode support
-- Multiple file support
-- Status bar integration
+- Multiple file support with individual ports
+- Status bar integration for managing active renders
